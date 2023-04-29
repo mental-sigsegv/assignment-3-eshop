@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sk.stuba.fei.uim.oop.assignment3.model.Product;
+import sk.stuba.fei.uim.oop.assignment3.request.ProductRequest;
 import sk.stuba.fei.uim.oop.assignment3.response.ProductAmountResponse;
 import sk.stuba.fei.uim.oop.assignment3.response.ProductResponse;
 import sk.stuba.fei.uim.oop.assignment3.service.ProductService;
@@ -50,6 +51,19 @@ public class ProductController {
         Long productId = productService.getId();
         Product product = new Product(productId, "none", "empty", 0L, "0", 0L);
         productService.addProduct(product);
-        return new ResponseEntity<>(new ProductResponse(product), HttpStatus.OK);
+        return new ResponseEntity<>(new ProductResponse(product), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/product/{id}")
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable(name = "id") Long id, @RequestBody ProductRequest productRequest) {
+        Optional<Product> product = productService.getProduct(id);
+        if (product.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        String newProductName = productRequest.getName();
+        String newProductDescription = productRequest.getDescription();
+        product.get().setName(newProductName);
+        product.get().setDescription(newProductDescription);
+        return new ResponseEntity<>(new ProductResponse(product.get()), HttpStatus.OK);
     }
 }
