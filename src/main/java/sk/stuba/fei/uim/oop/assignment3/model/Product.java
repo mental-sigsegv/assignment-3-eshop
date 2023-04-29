@@ -16,14 +16,18 @@ public class Product {
     @Getter @Setter
     private String unit;
     @Getter @Setter
-    private Long price;
+    private Double price;
 
-    public Product(Long id, String name, String description, Long amount, String unit, Long price) {
+    public Product(Long id, String name, String description, Long amount, String unit, Double price) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.amount = amount;
         this.unit = unit;
         this.price = price;
+    }
+
+    public void incrementAmount(Long amount) {
+        this.amount += amount;
     }
 }

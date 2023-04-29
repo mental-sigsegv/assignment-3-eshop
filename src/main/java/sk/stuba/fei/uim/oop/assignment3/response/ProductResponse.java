@@ -10,7 +10,7 @@ public class ProductResponse {
     private String description;
     private Long amount;
     private String unit;
-    private Long price;
+    private Double price;
 
     public ProductResponse(Product p) {
         id = p.getId();

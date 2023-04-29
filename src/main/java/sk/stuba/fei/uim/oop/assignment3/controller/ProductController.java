@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sk.stuba.fei.uim.oop.assignment3.model.Product;
+import sk.stuba.fei.uim.oop.assignment3.request.ProductAmountRequest;
 import sk.stuba.fei.uim.oop.assignment3.request.ProductRequest;
 import sk.stuba.fei.uim.oop.assignment3.response.ProductAmountResponse;
 import sk.stuba.fei.uim.oop.assignment3.response.ProductResponse;
@@ -49,7 +50,7 @@ public class ProductController {
     @PostMapping("/product")
     public ResponseEntity<ProductResponse> createProduct() {
         Long productId = productService.getId();
-        Product product = new Product(productId, "none", "empty", 0L, "0", 0L);
+        Product product = new Product(productId, "none", "empty", 0L, "0", 0.0);
         productService.addProduct(product);
         return new ResponseEntity<>(new ProductResponse(product), HttpStatus.CREATED);
     }
@@ -66,4 +67,23 @@ public class ProductController {
         product.get().setDescription(newProductDescription);
         return new ResponseEntity<>(new ProductResponse(product.get()), HttpStatus.OK);
     }
+
+    @DeleteMapping("/product/{id}")
+    public HttpStatus deleteProduct(@PathVariable(name = "id") Long id) {
+        Optional<Product> product = productService.getProduct(id);
+        if (product.isEmpty()) {
+            return HttpStatus.NOT_FOUND;
+        }
+        productService.removeProduct(id);
+        return HttpStatus.OK;
+    }
+
+    @PostMapping("/product/{id}/amount")
+    public ResponseEntity<ProductAmountResponse> incrementAmount(@PathVariable(name = "id") Long id, @RequestBody ProductAmountRequest productAmountRequest) {
+        Optional<Product> product = productService.getProduct(id);
+        if (product.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        product.get().incrementAmount(productAmountRequest.getAmount());
+        return new ResponseEntity<>(new ProductAmountResponse(product.get()), HttpStatus.OK);}
 }

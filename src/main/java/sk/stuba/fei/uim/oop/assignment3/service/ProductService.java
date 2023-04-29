@@ -17,9 +17,9 @@ public class ProductService {
         products = new ArrayList<>();
         id = 1L;
 
-        Product product1 = new Product(id, "Vodka", "Alcoholic drink", 1L, "1", 12L);
+        Product product1 = new Product(id, "Vodka", "Alcoholic drink", 1L, "1", 12.0);
         incId();
-        Product product2 = new Product(id, "Jager", "Alcoholic drink", 2L, "5", 13L);
+        Product product2 = new Product(id, "Jager", "Alcoholic drink", 2L, "5", 13.0);
         incId();
 
         products.addAll(Arrays.asList(product1, product2));
@@ -30,6 +30,15 @@ public class ProductService {
     public void addProduct(Product product) {
         products.add(product);
         incId();
+    }
+
+    public void removeProduct(Long id) {
+        for (Product product : products) {
+            if (Objects.equals(product.getId(), id)) {
+                products.remove(product);
+                return;
+            }
+        }
     }
 
     public ArrayList<Product> getProduct() {
