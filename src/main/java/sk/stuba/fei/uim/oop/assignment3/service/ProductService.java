@@ -1,5 +1,6 @@
 package sk.stuba.fei.uim.oop.assignment3.service;
 
+import lombok.Getter;
 import org.springframework.stereotype.Service;
 import sk.stuba.fei.uim.oop.assignment3.model.Product;
 
@@ -9,14 +10,26 @@ import java.util.*;
 public class ProductService {
     
     private List<Product> products;
+    @Getter
+    private Long id;
 
     public ProductService() {
         products = new ArrayList<>();
+        id = 1L;
 
-        Product product1 = new Product(1L, "Vodka", "Alcoholic drink", 1L, "1", 12L);
-        Product product2 = new Product(2L, "Jager", "Alcoholic drink", 2L, "5", 13L);
+        Product product1 = new Product(id, "Vodka", "Alcoholic drink", 1L, "1", 12L);
+        incId();
+        Product product2 = new Product(id, "Jager", "Alcoholic drink", 2L, "5", 13L);
+        incId();
 
         products.addAll(Arrays.asList(product1, product2));
+    }
+    private void incId() {
+        id++;
+    }
+    public void addProduct(Product product) {
+        products.add(product);
+        incId();
     }
 
     public ArrayList<Product> getProduct() {

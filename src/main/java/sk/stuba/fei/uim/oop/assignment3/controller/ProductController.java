@@ -3,10 +3,7 @@ package sk.stuba.fei.uim.oop.assignment3.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sk.stuba.fei.uim.oop.assignment3.model.Product;
 import sk.stuba.fei.uim.oop.assignment3.response.ProductAmountResponse;
 import sk.stuba.fei.uim.oop.assignment3.response.ProductResponse;
@@ -46,5 +43,13 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(new ProductAmountResponse(product.get()), HttpStatus.OK);
+    }
+
+    @PostMapping("/product")
+    public ResponseEntity<ProductResponse> createProduct() {
+        Long productId = productService.getId();
+        Product product = new Product(productId, "none", "empty", 0L, "0", 0L);
+        productService.addProduct(product);
+        return new ResponseEntity<>(new ProductResponse(product), HttpStatus.OK);
     }
 }
