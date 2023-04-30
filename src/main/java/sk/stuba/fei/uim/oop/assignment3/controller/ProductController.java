@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sk.stuba.fei.uim.oop.assignment3.model.Product;
 import sk.stuba.fei.uim.oop.assignment3.request.ProductAmountRequest;
+import sk.stuba.fei.uim.oop.assignment3.request.ProductNameDescriptionRequest;
 import sk.stuba.fei.uim.oop.assignment3.request.ProductRequest;
 import sk.stuba.fei.uim.oop.assignment3.response.ProductAmountResponse;
 import sk.stuba.fei.uim.oop.assignment3.response.ProductResponse;
@@ -46,9 +47,15 @@ public class ProductController {
     }
 
     @PostMapping("/product")
-    public ResponseEntity<ProductResponse> createProduct() {
+    public ResponseEntity<ProductResponse> createProduct(@RequestBody ProductRequest productRequest) {
         Long productId = productService.getId();
-        Product product = new Product(productId, "none", "empty", 0L, "0", 0.0);
+        String productName = productRequest.getName();
+        String productDescription = productRequest.getDescription();
+        Long productAmount = productRequest.getAmount();
+        String productUnit = productRequest.getUnit();
+        Double productPrice = productRequest.getPrice();
+
+        Product product = new Product(productId, productName, productDescription, productAmount, productUnit, productPrice);
         productService.addProduct(product);
         return new ResponseEntity<>(new ProductResponse(product), HttpStatus.CREATED);
     }
@@ -59,21 +66,36 @@ public class ProductController {
         if (product.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        String newProductName = productRequest.getName();
-        String newProductDescription = productRequest.getDescription();
-        product.get().setName(newProductName);
-        product.get().setDescription(newProductDescription);
+
+        // TODO rework
+
+        if (productRequest.getName() != null) {
+            product.get().setName(productRequest.getName());
+        }
+        if (productRequest.getDescription() != null) {
+            product.get().setDescription(productRequest.getDescription());
+        }
+        if (productRequest.getAmount() != null) {
+            product.get().setAmount(productRequest.getAmount());
+        }
+        if (productRequest.getUnit() != null) {
+            product.get().setUnit(productRequest.getUnit());
+        }
+        if (productRequest.getPrice() != null) {
+            product.get().setPrice(productRequest.getPrice());
+        }
+
         return new ResponseEntity<>(new ProductResponse(product.get()), HttpStatus.OK);
     }
 
     @DeleteMapping("/product/{id}")
-    public HttpStatus deleteProduct(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable(name = "id") Long id) {
         Optional<Product> product = productService.getProduct(id);
         if (product.isEmpty()) {
-            return HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         productService.removeProduct(id);
-        return HttpStatus.OK;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/product/{id}/amount")

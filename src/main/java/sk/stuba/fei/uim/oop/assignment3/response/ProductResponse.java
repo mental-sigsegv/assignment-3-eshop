@@ -12,12 +12,12 @@ public class ProductResponse {
     private String unit;
     private Double price;
 
-    public ProductResponse(Product p) {
-        id = p.getId();
-        name = p.getName();
-        description = p.getDescription();
-        amount = p.getAmount();
-        unit = p.getUnit();
-        price = p.getPrice();
+    public ProductResponse(Product product) {
+        id = product.getId();
+        name = product.getName();
+        description = product.getDescription();
+        amount = product.getAmount();
+        unit = product.getUnit();
+        price = product.getPrice();
     }
 }

@@ -4,32 +4,23 @@ import lombok.Getter;
 import org.springframework.stereotype.Service;
 import sk.stuba.fei.uim.oop.assignment3.model.Product;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 @Service
 public class ProductService {
     
-    private List<Product> products;
+    private ArrayList<Product> products;
     @Getter
     private Long id;
 
     public ProductService() {
         products = new ArrayList<>();
         id = 1L;
-
-        Product product1 = new Product(id, "Vodka", "Alcoholic drink", 1L, "1", 12.0);
-        incId();
-        Product product2 = new Product(id, "Jager", "Alcoholic drink", 2L, "5", 13.0);
-        incId();
-
-        products.addAll(Arrays.asList(product1, product2));
-    }
-    private void incId() {
-        id++;
     }
     public void addProduct(Product product) {
         products.add(product);
-        incId();
+        id++;
     }
 
     public void removeProduct(Long id) {
@@ -42,7 +33,7 @@ public class ProductService {
     }
 
     public ArrayList<Product> getProduct() {
-        return new ArrayList<>(this.products);
+        return products;
     }
 
     public Optional<Product> getProduct(Long id) {
