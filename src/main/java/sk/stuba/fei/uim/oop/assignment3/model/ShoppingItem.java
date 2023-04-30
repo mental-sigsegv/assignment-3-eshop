@@ -16,8 +16,4 @@ public class ShoppingItem {
     private Long id;
     private Long productId;
     private Long amount;
-    public ShoppingItem(Long productId, Long amount) {
-        this.productId = productId;
-        this.amount = amount;
-    }
 }

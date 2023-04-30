@@ -1,6 +1,5 @@
 package sk.stuba.fei.uim.oop.assignment3.controller;
 
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,17 +21,14 @@ public class CartController {
     private ProductService productService;
     @PostMapping("/cart")
     public ResponseEntity<CartResponse> createCart() {
-        Cart cart = new Cart(new ArrayList<ShoppingItem>(), false);
+        Cart cart = new Cart(new ArrayList<>(), false);
         cartService.addCart(cart);
         return new ResponseEntity<>(new CartResponse(cart), HttpStatus.CREATED);
     }
     @GetMapping("/cart/{id}")
     public ResponseEntity<CartResponse> getCartById(@PathVariable(name = "id") Long id) {
         Optional<Cart> optional = cartService.getCart(id);
-        if (optional.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(new CartResponse(optional.get()), HttpStatus.OK);
+        return optional.map(cart -> new ResponseEntity<>(new CartResponse(cart), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping("/cart/{id}")

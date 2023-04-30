@@ -31,19 +31,13 @@ public class ProductController {
     @GetMapping("/product/{id}")
     public ResponseEntity<ProductResponse> getProductId(@PathVariable(name = "id") Long id) {
         Optional<Product> product = productService.getProduct(id);
-        if (product.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(new ProductResponse(product.get()), HttpStatus.OK);
+        return product.map(value -> new ResponseEntity<>(new ProductResponse(value), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/product/{id}/amount")
     public ResponseEntity<ProductAmountResponse> getProductAmount(@PathVariable(name = "id") Long id) {
         Optional<Product> product = productService.getProduct(id);
-        if (product.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(new ProductAmountResponse(product.get()), HttpStatus.OK);
+        return product.map(value -> new ResponseEntity<>(new ProductAmountResponse(value), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/product")

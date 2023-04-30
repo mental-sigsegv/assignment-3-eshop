@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class ProductAmountRequest {
-    private Long amount;
+    private final Long amount;
     public ProductAmountRequest(@JsonProperty("amount") Long amount) {
         this.amount = amount;
     }

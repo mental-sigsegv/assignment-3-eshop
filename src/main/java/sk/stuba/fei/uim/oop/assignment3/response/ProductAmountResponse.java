@@ -5,7 +5,7 @@ import sk.stuba.fei.uim.oop.assignment3.model.Product;
 
 @Getter
 public class ProductAmountResponse {
-    private Long amount;
+    private final Long amount;
     public ProductAmountResponse(Product p) {
         this.amount = p.getAmount();
     }

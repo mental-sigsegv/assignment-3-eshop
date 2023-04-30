@@ -19,7 +19,7 @@ public class Cart {
     private ArrayList<ShoppingItem> shoppingList;
     @Getter @Setter
     private boolean payed;
-    public Cart(ArrayList shoppingList, boolean payed) {
+    public Cart(ArrayList<ShoppingItem> shoppingList, boolean payed) {
         this.shoppingList = shoppingList;
         this.payed = payed;
     }

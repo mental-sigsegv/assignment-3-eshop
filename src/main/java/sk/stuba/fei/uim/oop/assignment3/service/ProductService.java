@@ -1,5 +1,6 @@
 package sk.stuba.fei.uim.oop.assignment3.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sk.stuba.fei.uim.oop.assignment3.model.Product;
 import sk.stuba.fei.uim.oop.assignment3.repository.ProductRepository;
@@ -8,10 +9,8 @@ import java.util.*;
 
 @Service
 public class ProductService {
-    private final ProductRepository repository;
-    public ProductService(ProductRepository repository) {
-        this.repository = repository;
-    }
+    @Autowired
+    private ProductRepository repository;
     public void addProduct(Product product) {
         repository.save(product);
     }
@@ -20,10 +19,7 @@ public class ProductService {
         optional.ifPresent(repository::delete);
     }
     public ArrayList<Product> getProduct() {
-        Iterable<Product> products = repository.findAll();
-        ArrayList<Product> productArrayList = new ArrayList<>();
-        products.forEach(productArrayList::add);
-        return productArrayList;
+        return repository.findAll();
     }
     public Optional<Product> getProduct(Long id) {
         return repository.findById(id);

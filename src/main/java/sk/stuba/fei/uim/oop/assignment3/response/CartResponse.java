@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 @Getter
 public class CartResponse {
-    private Long id;
-    private ArrayList<ShoppingItem> shoppingList;
-    private boolean payed;
+    private final Long id;
+    private final ArrayList<ShoppingItem> shoppingList;
+    private final boolean payed;
     public CartResponse(Cart c) {
         this.id = c.getId();
         this.shoppingList = c.getShoppingList();
