@@ -3,6 +3,7 @@ package sk.stuba.fei.uim.oop.assignment3.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import sk.stuba.fei.uim.oop.assignment3.model.Product;
 import sk.stuba.fei.uim.oop.assignment3.request.ProductAmountRequest;
@@ -10,6 +11,7 @@ import sk.stuba.fei.uim.oop.assignment3.request.ProductNameDescriptionRequest;
 import sk.stuba.fei.uim.oop.assignment3.request.ProductRequest;
 import sk.stuba.fei.uim.oop.assignment3.response.ProductAmountResponse;
 import sk.stuba.fei.uim.oop.assignment3.response.ProductResponse;
+import sk.stuba.fei.uim.oop.assignment3.service.CartService;
 import sk.stuba.fei.uim.oop.assignment3.service.ProductService;
 
 import java.util.ArrayList;
@@ -17,11 +19,8 @@ import java.util.Optional;
 
 @RestController
 public class ProductController {
-    private final ProductService productService;
     @Autowired
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+    private ProductService productService;
 
     @GetMapping("/product")
     public ArrayList<Product> getAllProducts() {

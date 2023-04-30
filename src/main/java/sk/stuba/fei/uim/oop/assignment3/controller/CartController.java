@@ -16,11 +16,8 @@ import java.util.Optional;
 
 @RestController
 public class CartController {
-    private final CartService cartService;
     @Autowired
-    public CartController(CartService cartService) {
-        this.cartService = cartService;
-    }
+    private CartService cartService;
     @Autowired
     private ProductService productService;
     @PostMapping("/cart")
