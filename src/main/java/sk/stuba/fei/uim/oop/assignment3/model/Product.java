@@ -2,10 +2,17 @@ package sk.stuba.fei.uim.oop.assignment3.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.bind.annotation.RequestAttribute;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Product {
-    @Getter @Setter
+    @Getter
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Getter @Setter
     private String name;
@@ -17,6 +24,7 @@ public class Product {
     private String unit;
     @Getter @Setter
     private Double price;
+
 
     public Product(Long id, String name, String description, Long amount, String unit, Double price) {
         this.id = id;
