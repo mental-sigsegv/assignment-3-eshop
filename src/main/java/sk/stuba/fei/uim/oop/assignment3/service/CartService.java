@@ -1,49 +1,25 @@
 package sk.stuba.fei.uim.oop.assignment3.service;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 import sk.stuba.fei.uim.oop.assignment3.model.Cart;
-import sk.stuba.fei.uim.oop.assignment3.model.Product;
+import sk.stuba.fei.uim.oop.assignment3.repository.CartRepository;
 
-import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class CartService {
-    @Getter
-    @Setter
-    private ArrayList<Cart> carts;
-    @Getter @Setter
-    private Long id;
-    public CartService() {
-        carts = new ArrayList<>();
-        id = 1L;
+    private final CartRepository repository;
+    public CartService(CartRepository repository) {
+        this.repository = repository;
     }
-
     public void addCart(Cart cart) {
-        carts.add(cart);
-        id++;
+        repository.save(cart);
     }
-
     public void removeCart(Long id) {
-        for (Cart cart : carts) {
-            if (Objects.equals(cart.getId(), id)) {
-                carts.remove(cart);
-                return;
-            }
-        }
+        Optional<Cart> optional = repository.findById(id);
+        optional.ifPresent(repository::delete);
     }
-
     public Optional<Cart> getCart(Long id) {
-        Optional<Cart> optional = Optional.empty();
-        for (Cart cart : carts) {
-            if (Objects.equals(cart.getId(), id)) {
-                optional = Optional.of(cart);
-                return optional;
-            }
-        }
-        return optional;
+        return repository.findById(id);
     }
 }

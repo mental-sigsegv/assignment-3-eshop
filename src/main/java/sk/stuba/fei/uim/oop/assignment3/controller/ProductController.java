@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import sk.stuba.fei.uim.oop.assignment3.model.Product;
+import sk.stuba.fei.uim.oop.assignment3.repository.ProductRepository;
 import sk.stuba.fei.uim.oop.assignment3.request.ProductAmountRequest;
 import sk.stuba.fei.uim.oop.assignment3.request.ProductNameDescriptionRequest;
 import sk.stuba.fei.uim.oop.assignment3.request.ProductRequest;
@@ -47,14 +48,13 @@ public class ProductController {
 
     @PostMapping("/product")
     public ResponseEntity<ProductResponse> createProduct(@RequestBody ProductRequest productRequest) {
-        Long productId = productService.getId();
         String productName = productRequest.getName();
         String productDescription = productRequest.getDescription();
         Long productAmount = productRequest.getAmount();
         String productUnit = productRequest.getUnit();
         Double productPrice = productRequest.getPrice();
 
-        Product product = new Product(productId, productName, productDescription, productAmount, productUnit, productPrice);
+        Product product = new Product(productName, productDescription, productAmount, productUnit, productPrice);
         productService.addProduct(product);
         return new ResponseEntity<>(new ProductResponse(product), HttpStatus.CREATED);
     }

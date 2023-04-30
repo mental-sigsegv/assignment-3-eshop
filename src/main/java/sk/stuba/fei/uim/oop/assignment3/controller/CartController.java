@@ -22,17 +22,10 @@ public class CartController {
     private ProductService productService;
     @PostMapping("/cart")
     public ResponseEntity<CartResponse> createCart() {
-        Long cartId = cartService.getId();
-        Cart cart = new Cart(cartId, new ArrayList<ShoppingItem>(), false);
+        Cart cart = new Cart(new ArrayList<ShoppingItem>(), false);
         cartService.addCart(cart);
         return new ResponseEntity<>(new CartResponse(cart), HttpStatus.CREATED);
     }
-
-    @GetMapping("/cart")
-    public ArrayList<Cart> getAllCarts() {
-        return cartService.getCarts();
-    }
-
     @GetMapping("/cart/{id}")
     public ResponseEntity<CartResponse> getCartById(@PathVariable(name = "id") Long id) {
         Optional<Cart> optional = cartService.getCart(id);

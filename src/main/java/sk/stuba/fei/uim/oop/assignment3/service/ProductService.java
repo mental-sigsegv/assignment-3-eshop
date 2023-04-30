@@ -1,49 +1,31 @@
 package sk.stuba.fei.uim.oop.assignment3.service;
 
-import lombok.Getter;
 import org.springframework.stereotype.Service;
 import sk.stuba.fei.uim.oop.assignment3.model.Product;
+import sk.stuba.fei.uim.oop.assignment3.repository.ProductRepository;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 @Service
 public class ProductService {
-    
-    private ArrayList<Product> products;
-    @Getter
-    private Long id;
-
-    public ProductService() {
-        products = new ArrayList<>();
-        id = 1L;
+    private final ProductRepository repository;
+    public ProductService(ProductRepository repository) {
+        this.repository = repository;
     }
     public void addProduct(Product product) {
-        products.add(product);
-        id++;
+        repository.save(product);
     }
-
     public void removeProduct(Long id) {
-        for (Product product : products) {
-            if (Objects.equals(product.getId(), id)) {
-                products.remove(product);
-                return;
-            }
-        }
+        Optional<Product> optional = repository.findById(id);
+        optional.ifPresent(repository::delete);
     }
-
     public ArrayList<Product> getProduct() {
-        return products;
+        Iterable<Product> products = repository.findAll();
+        ArrayList<Product> productArrayList = new ArrayList<>();
+        products.forEach(productArrayList::add);
+        return productArrayList;
     }
-
     public Optional<Product> getProduct(Long id) {
-        Optional<Product> optional = Optional.empty();
-        for (Product product : products) {
-            if (Objects.equals(product.getId(), id)) {
-                optional = Optional.of(product);
-                return optional;
-            }
-        }
-        return optional;
+        return repository.findById(id);
     }
 }

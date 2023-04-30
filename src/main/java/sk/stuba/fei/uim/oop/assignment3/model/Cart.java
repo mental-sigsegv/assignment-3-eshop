@@ -11,14 +11,15 @@ import java.util.ArrayList;
 
 @Entity
 public class Cart {
-    @Getter @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Getter
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Getter @Setter
     private ArrayList<ShoppingItem> shoppingList;
     @Getter @Setter
     private boolean payed;
-    public Cart(Long id, ArrayList shoppingList, boolean payed) {
-        this.id = id;
+    public Cart(ArrayList shoppingList, boolean payed) {
         this.shoppingList = shoppingList;
         this.payed = payed;
     }
