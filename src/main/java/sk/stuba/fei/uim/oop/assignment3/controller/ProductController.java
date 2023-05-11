@@ -60,7 +60,6 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        // TODO rework
 
         if (productRequest.getName() != null) {
             product.get().setName(productRequest.getName());
